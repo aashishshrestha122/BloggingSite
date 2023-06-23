@@ -10,4 +10,4 @@
 * Go to Server Directory
 * Run NPM/Yarn Install to install the dependencies
 * Setup proper environment variables taking reference from .env.example
-* Run NPM/Yarn Start to run the app
+* Run NPM/Yarn Dev to run the app in Dev environment
