@@ -1,4 +1,4 @@
-# Order Management System - Server
+# Blogging Site Backend Server
 
 ## Setup
 * Clone the repo.
