@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist",
+    "dev": "cross-env NODE_ENV=dev nodemon --watch .env --watch src --exec babel-node src --source-maps",
+    "build": "rimraf dist && babel src --copy-files --out-dir dist --source-maps",
+    "db-create": "db-migrate db:create --config src/database.json -e new oms_db",
+    "db-drop": "db-migrate db:drop --config src/database.json -e $npm_config_env oms_db",
+    "db-up": "db-migrate up --config src/database.json --migrations-dir src/migrations",
+    "db-down": "db-migrate reset --config src/database.json --migrations-dir src/migrations",
+    "create-migration": "db-migrate create $npm_config_migration_name --config src/database.json --migrations-dir src/migrations --sql-file"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "db-migrate": "^0.11.12",
+    "db-migrate-mysql": "^2.1.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status-codes": "^2.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5"
+  }
+}
