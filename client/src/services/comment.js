@@ -5,3 +5,10 @@ export const postComment = async (postId, userid, comment) => {
 
     return data;
 };
+
+export const editComment = async (postId, userid, comment) => {
+    const { data } = await http.post('/comments/post-comment', { postId, userid, comment });
+
+    return data;
+};
+

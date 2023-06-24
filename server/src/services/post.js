@@ -40,7 +40,7 @@ export const createPost = async (data) => {
 }
 
 export const editPost = async (data) => {
-    if (data.id) {
+    if (data.postId) {
 
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -49,14 +49,19 @@ export const editPost = async (data) => {
 
         const query = `UPDATE posts
                         SET
+                            userid      = ${mysql.escape(data.userId)},
                             title       = ${mysql.escape(data.title)},
                             body        = ${mysql.escape(data.body)},
                             updated_at  = ${mysql.escape(dateTime)}
                         WHERE 
-                            id = ${mysql.escape(data.id)}`;
+                            id = ${mysql.escape(data.postId)}`;
 
         const [rows] = await pool.promise().query(query);
-        return [rows];
+        const result = {
+            ...rows,
+            postId : data.postId
+        }
+        return result;
     }
 }
 

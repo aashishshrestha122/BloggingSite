@@ -15,3 +15,9 @@ export const getAllPosts = async () => {
         console.log(err);
     }
 };
+
+export const editPost = async (postId, userId, title, body) => {
+    const { data } = await http.post('/posts/edit-post', { postId, userId, title, body });
+
+    return data;
+};
