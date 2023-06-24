@@ -4,7 +4,7 @@ import pool from '../db';
 
 export const createPost = async (data) => {
     if (data.title && data.body) {
-
+        console.log(data);
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -12,6 +12,7 @@ export const createPost = async (data) => {
 
         const query = `INSERT INTO posts
                         (
+                            userid,
                             title,
                             body,
                             created_at,
@@ -19,6 +20,7 @@ export const createPost = async (data) => {
                         )
                         VALUES
                         (
+                            ${mysql.escape(data.userid)},
                             ${mysql.escape(data.title)},
                             ${mysql.escape(data.body)},
                             ${mysql.escape(dateTime)},
@@ -26,7 +28,14 @@ export const createPost = async (data) => {
                         );`;
 
         const [rows] = await pool.promise().query(query);
-        return [rows];
+        const result = {
+            id: rows.insertId,
+            userid: data.userid,
+            title: data.title,
+            body: data.body,
+            created_at: dateTime
+        }
+        return result;
     }
 }
 
@@ -53,10 +62,20 @@ export const editPost = async (data) => {
 
 export const viewPosts = async () => {
 
-    const query = `SELECT id, title, body FROM posts`;
+    const posts = `SELECT id, title, body FROM posts ORDER BY created_at DESC`;
+    const [postResults] = await pool.promise().query(posts);
+    const postIds = postResults.map(result => result.id);
 
-    const [rows] = await pool.promise().query(query);
-    return [rows];
+    const comment = `SELECT c.id, c.post_id, u.username, c.user_name, c.body FROM comments c LEFT JOIN users u on u.id = c.user_name WHERE c.id IN (${postIds.join(',')})`;
+    const [commentResults] = await pool.promise().query(comment);
+
+    const result = postResults.map(post => {
+        return {
+            ...post,
+            comments: commentResults.filter(comment => comment.post_id === post.id)
+        }
+    })
+    return result;
 }
 
 export const post = async (data) => {
@@ -68,7 +87,7 @@ export const post = async (data) => {
 }
 
 export const deletePost = async (data) => {
-    
+
     const query = `DELETE FROM posts WHERE id = ${mysql.escape(data.id)}`;
 
     const [rows] = await pool.promise().query(query);

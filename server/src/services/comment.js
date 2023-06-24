@@ -18,15 +18,15 @@ export const postComment = async (data) => {
                         )
                         VALUES
                         (
-                            ${mysql.escape(data.post_id)},
-                            ${mysql.escape(data.username)},
-                            ${mysql.escape(data.body)},
+                            ${mysql.escape(data.postId)},
+                            ${mysql.escape(data.userid)},
+                            ${mysql.escape(data.comment)},
                             ${mysql.escape(dateTime)},
                             ${mysql.escape(dateTime)}
                         );`;
 
     const [rows] = await pool.promise().query(query);
-    return [rows];
+    return rows;
 }
 
 export const editComment = async (data) => {
