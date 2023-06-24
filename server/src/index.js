@@ -5,8 +5,9 @@ import './env';
 import './db';
 import config from './config';
 import * as errorHandler from './middleware/errorHandler';
+
 import authRoutes from './routes/auth';
-// import tableRoutes from './routes/table';
+import postRoutes from './routes/posts';
 // import menuRoutes from './routes/menu';
 // import branchRoutes from './routes/branch';
 // import onlinePartnersRoutes from './routes/onlinePartners';
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-// app.use('/api/table', tableRoutes);
+app.use('/api/posts', postRoutes);
 // app.use('/api/menu', menuRoutes);
 // app.use('/api/branch', branchRoutes);
 // app.use('/api/online-partners', onlinePartnersRoutes);
