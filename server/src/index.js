@@ -8,9 +8,7 @@ import * as errorHandler from './middleware/errorHandler';
 
 import authRoutes from './routes/auth';
 import postRoutes from './routes/posts';
-// import menuRoutes from './routes/menu';
-// import branchRoutes from './routes/branch';
-// import onlinePartnersRoutes from './routes/onlinePartners';
+import commentRoutes from './routes/comment';
 
 const app = express();
 
@@ -19,9 +17,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-// app.use('/api/menu', menuRoutes);
-// app.use('/api/branch', branchRoutes);
-// app.use('/api/online-partners', onlinePartnersRoutes);
+app.use('/api/comments', commentRoutes);
 
 app.get('/', (req, res) => {
     res.json({
