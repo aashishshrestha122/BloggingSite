@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button, Card, Form } from 'react-bootstrap';
+import { TiUserOutline } from "react-icons/ti";
 
 import { searchPost } from '../../redux/actions/post';
 
@@ -47,7 +48,7 @@ const Home = ({ user, searchPost, searchedPost }) => {
                     </div>
                 </Col>
                 <Col>
-                    <span>{user && user.username ? user.username : ''}</span>{''}
+                    <span style={{ marginRight: '5px' }}><TiUserOutline />{user && user.username ? user.username : ''}</span>{''}
                     <Button variant='danger' onClick={logout}>Logout</Button>
                 </Col>
             </Row>
@@ -78,8 +79,8 @@ const Home = ({ user, searchPost, searchedPost }) => {
                                         </Card.Body>
                                     </Card >
                                 ))
-                                :
-                                'No data found.'
+                                    :
+                                    'No data found.'
                                 }
                             </div>
                             :

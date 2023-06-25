@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Form, Pagination } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Pagination } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 import { connect } from "react-redux";
 import { getAllPosts, editPost, deletePost } from '../../redux/actions/post';
 import { postComment } from '../../redux/actions/comment';
+
+import { TiEdit, TiDelete } from "react-icons/ti";
 
 const AllPosts = ({
     getAllPosts,
@@ -121,14 +123,15 @@ const AllPosts = ({
                                                 <Button
                                                     variant='secondary'
                                                     onClick={() => handleShow(post.id, userId, post.title, post.body)}
+                                                    style={{ marginRight: '5px' }}
                                                 >
-                                                    Edit
+                                                    <TiEdit />
                                                 </Button>
                                                 <Button
                                                     variant='danger'
                                                     onClick={() => handleDelete(post.id)}
                                                 >
-                                                    Delete
+                                                    <TiDelete />
                                                 </Button>
                                             </>
                                             : ''
@@ -138,7 +141,8 @@ const AllPosts = ({
 
                             <Card.Text>
                                 {post.body}
-                                <br /><br /><b><i>~by {post.username}</i></b>
+                                <br /><br />
+                                <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'end' }}><b><i>~by {post.username}</i></b></span>
                             </Card.Text>
                             {
                                 post.comments && post.comments.length ? post.comments.map(comment => (
@@ -146,24 +150,34 @@ const AllPosts = ({
                                 )) : ''
                             }
                             <Card.Text>
-                                <Form>
-                                    <Form.Group className="mb-3 " controlId="formComment">
-                                        <Form.Control type="text" placeholder="Enter Comment" name="comment" onBlur={handleChange} />
-                                    </Form.Group>
-                                    <Button
-                                        variant='primary'
-                                        style={{ padding: "6px" }}
-                                        onClick={() => handleSubmit(post.id)}
-                                    >
-                                        Comment
-                                    </Button>
-                                </Form>
+                                <Container>
+                                    <Form style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between'
+                                    }}>
+                                        <Col xs={10} style={{ marginRight: '5px' }}>
+                                            <Form.Group className="mb-3 " controlId="formComment">
+                                                <Form.Control type="text" placeholder="Enter Comment" name="comment" onBlur={handleChange} />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={2}>
+                                            <Button
+                                                variant='primary'
+                                                style={{ padding: "6px" }}
+                                                onClick={() => handleSubmit(post.id)}
+                                            >
+                                                Comment
+                                            </Button>
+                                        </Col>
+                                    </Form>
+                                </Container>
                             </Card.Text>
                         </Card.Body>
                     </Card >
                 ))
                 }
-            </div>
+            </div >
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit</Modal.Title>
