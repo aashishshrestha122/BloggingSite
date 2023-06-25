@@ -71,7 +71,7 @@ export const viewPosts = async () => {
     const [postResults] = await pool.promise().query(posts);
     const postIds = postResults.map(result => result.id);
 
-    const comment = `SELECT c.id, c.post_id, u.username, c.user_name, c.body FROM comments c LEFT JOIN users u on u.id = c.user_name WHERE c.id IN (${postIds.join(',')})`;
+    const comment = `SELECT c.id, c.post_id, u.username, c.user_name, c.body FROM comments c LEFT JOIN users u on u.id = c.user_name WHERE c.post_id IN (${postIds.join(',')})`;
     const [commentResults] = await pool.promise().query(comment);
 
     const result = postResults.map(post => {
@@ -80,6 +80,8 @@ export const viewPosts = async () => {
             comments: commentResults.filter(comment => comment.post_id === post.id)
         }
     })
+
+    console.log('result', result)
     return result;
 }
 
