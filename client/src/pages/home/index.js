@@ -27,7 +27,9 @@ const Home = ({ user, searchPost, searchedPost }) => {
     }
 
     useEffect(() => {
-        searchPost(searchText)
+        if (searchText) {
+            searchPost(searchText)
+        }
     }, [searchText])
 
     useEffect(() => { }, [])
@@ -62,7 +64,7 @@ const Home = ({ user, searchPost, searchedPost }) => {
                     {
                         searchText ?
                             <div style={{ height: '550px', overflow: 'scroll', marginBottom: '20px', marginTop: '20px' }}>
-                                {searchedPost && searchedPost.length && searchedPost.map(post => (
+                                {searchedPost && searchedPost.length ? searchedPost.map(post => (
                                     <Card Card style={{ marginBottom: "20px" }} >
                                         <Card.Body key={post.id}>
                                             <Card.Title>
@@ -73,15 +75,11 @@ const Home = ({ user, searchPost, searchedPost }) => {
                                                 {post.post}
                                                 <br /><br /><b><i>~by {post.postedBy}</i></b>
                                             </Card.Text>
-                                            {console.log(post)}
-                                            {/* {
-                                                post.comment && post.comment.length ? post.comment.map(comment => (
-                                                    <Card.Text><b>{comment.commentedBy}</b> : {comment.comment}</Card.Text>
-                                                )) : ''
-                                            } */}
                                         </Card.Body>
                                     </Card >
                                 ))
+                                :
+                                'No data found.'
                                 }
                             </div>
                             :

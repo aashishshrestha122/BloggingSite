@@ -20,7 +20,7 @@ const AllPosts = ({
 }) => {
 
     const [paginationData, setPaginationData] = useState({
-        offset: 10,
+        offset: 0,
         limit: 10
     })
 
