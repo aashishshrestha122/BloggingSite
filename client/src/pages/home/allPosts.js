@@ -90,13 +90,18 @@ const AllPosts = ({
         // await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
         const editRes = await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
         if (editRes.value.serverStatus === 2) {
-            getAllPosts();
+            getAllPosts(paginationData);
+            setShow(false)
         }
     }
 
     const handleDelete = async (postId) => {
         // await deletePost(postId);
-        const delRes = deletePost(postId);
+        const delRes = await deletePost(postId);
+        if (delRes.value.serverStatus === 2) {
+            getAllPosts(paginationData);
+            setShow(false)
+        }
     }
 
     return (
@@ -105,26 +110,30 @@ const AllPosts = ({
                 {allPosts && allPosts.length && allPosts.map(post => (
                     <Card Card style={{ marginBottom: "20px" }} >
                         <Card.Body key={post.id}>
-                            <Card.Title>
-                                {post.title}
-                                {
-                                    post.userid === userId ?
-                                        <>
-                                            <Button
-                                                variant='secondary'
-                                                onClick={() => handleShow(post.id, userId, post.title, post.body)}
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                variant='danger'
-                                                onClick={() => handleDelete(post.id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </>
-                                        : ''
-                                }
+                            <Card.Title style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <div>
+                                    {post.title}
+                                </div>
+                                <div>
+                                    {
+                                        post.userid === userId ?
+                                            <>
+                                                <Button
+                                                    variant='secondary'
+                                                    onClick={() => handleShow(post.id, userId, post.title, post.body)}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    variant='danger'
+                                                    onClick={() => handleDelete(post.id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </>
+                                            : ''
+                                    }
+                                </div>
                             </Card.Title>
 
                             <Card.Text>
