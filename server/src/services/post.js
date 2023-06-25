@@ -59,7 +59,7 @@ export const editPost = async (data) => {
         const [rows] = await pool.promise().query(query);
         const result = {
             ...rows,
-            postId : data.postId
+            postId: data.postId
         }
         return result;
     }
@@ -67,7 +67,7 @@ export const editPost = async (data) => {
 
 export const viewPosts = async () => {
 
-    const posts = `SELECT id, userid, title, body FROM posts ORDER BY created_at DESC`;
+    const posts = `SELECT p.id, p.userid, u.username, p.title, p.body FROM posts p LEFT JOIN users u on u.id = p.userid ORDER BY p.created_at DESC`;
     const [postResults] = await pool.promise().query(posts);
     const postIds = postResults.map(result => result.id);
 

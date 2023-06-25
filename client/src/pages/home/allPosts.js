@@ -87,7 +87,7 @@ const AllPosts = ({
                     <Card.Body key={post.id}>
                         <Card.Title>
                             {post.title}
-
+                            {console.log(post)}
                             {
                                 post.userid === userId ?
                                     <>
@@ -110,6 +110,7 @@ const AllPosts = ({
 
                         <Card.Text>
                             {post.body}
+                            <br /><br /><b><i>~by {post.username}</i></b>
                         </Card.Text>
                         {
                             post.comments && post.comments.length ? post.comments.map(comment => (
