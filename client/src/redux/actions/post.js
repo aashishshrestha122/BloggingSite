@@ -17,6 +17,11 @@ export const EDIT_POST_PENDING = 'EDIT_POST_PENDING';
 export const EDIT_POST_REJECTED = 'EDIT_POST_REJECTED';
 export const EDIT_POST_FULFILLED = 'EDIT_POST_FULFILLED';
 
+export const DELETE_POST = 'DELETE_POST';
+export const DELETE_POST_PENDING = 'DELETE_POST_PENDING';
+export const DELETE_POST_REJECTED = 'DELETE_POST_REJECTED';
+export const DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
+
 export const post = createAction(
     CREATE_POST,
     postService.post
@@ -30,4 +35,9 @@ export const getAllPosts = createAction(
 export const editPost = createAction(
     EDIT_POST,
     postService.editPost
+);
+
+export const deletePost = createAction(
+    DELETE_POST,
+    postService.deletePost
 );

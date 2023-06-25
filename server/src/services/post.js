@@ -93,8 +93,8 @@ export const post = async (data) => {
 
 export const deletePost = async (data) => {
 
-    const query = `DELETE FROM posts WHERE id = ${mysql.escape(data.id)}`;
+    const query = `DELETE FROM posts WHERE id = ${mysql.escape(data.postId)}`;
 
     const [rows] = await pool.promise().query(query);
-    return [rows];
+    return rows;
 }

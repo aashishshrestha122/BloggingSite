@@ -21,3 +21,9 @@ export const editPost = async (postId, userId, title, body) => {
 
     return data;
 };
+
+export const deletePost = async (postId) => {
+    const { data } = await http.put('/posts/delete-post', { postId });
+
+    return data;
+};

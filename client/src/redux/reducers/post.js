@@ -7,7 +7,10 @@ import {
     GET_ALL_POSTS_REJECTED,
     EDIT_POST_FULFILLED,
     EDIT_POST_PENDING,
-    EDIT_POST_REJECTED
+    EDIT_POST_REJECTED,
+    DELETE_POST_FULFILLED,
+    DELETE_POST_REJECTED,
+    DELETE_POST_PENDING
 } from "../actions/post";
 // import * as tokenUtil from "../../utils/token";
 
@@ -22,6 +25,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case CREATE_POST_FULFILLED:
         case EDIT_POST_FULFILLED:
+        case DELETE_POST_FULFILLED:
             return {
                 ...state,
                 posts: action.payload,
@@ -36,6 +40,7 @@ export default function (state = initialState, action) {
         case CREATE_POST_PENDING:
         case GET_ALL_POSTS_PENDING:
         case EDIT_POST_PENDING:
+        case DELETE_POST_PENDING:
             return {
                 ...state,
                 loading: true
@@ -43,6 +48,7 @@ export default function (state = initialState, action) {
         case CREATE_POST_REJECTED:
         case GET_ALL_POSTS_REJECTED:
         case EDIT_POST_REJECTED:
+        case DELETE_POST_REJECTED:
             return {
                 ...state,
                 loading: false

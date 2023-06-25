@@ -4,7 +4,7 @@ import { Button, Card, Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 import { connect } from "react-redux";
-import { getAllPosts, editPost } from '../../redux/actions/post';
+import { getAllPosts, editPost, deletePost } from '../../redux/actions/post';
 import { postComment } from '../../redux/actions/comment';
 
 const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, commentId, updatedPostLoading }) => {
@@ -58,7 +58,11 @@ const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, 
         })
     }
     const handleEdit = async () => {
-        await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body)
+        await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
+    }
+
+    const handleDelete = async (postId) => {
+        await deletePost(postId);
     }
 
     return (
@@ -68,8 +72,18 @@ const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, 
                     <Card.Body>
                         <Card.Title>
                             {post.title}
-                            <Button variant='secondary' onClick={() => handleShow(post.id, userId, post.title, post.body)}>Edit</Button>
-                            <Button variant='danger'>Delete</Button>
+                            <Button
+                                variant='secondary'
+                                onClick={() => handleShow(post.id, userId, post.title, post.body)}
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                variant='danger'
+                                onClick={() => handleDelete(post.id)}
+                            >
+                                Delete
+                            </Button>
                         </Card.Title>
 
                         <Card.Text>
