@@ -31,7 +31,7 @@ const AllPosts = ({
                 ...paginationData,
                 offset: parseInt(paginationData.offset) + 10
             })
-        }else if(status === 'prev'){
+        } else if (status === 'prev') {
             setPaginationData({
                 ...paginationData,
                 offset: parseInt(paginationData.offset) - 10
@@ -40,7 +40,6 @@ const AllPosts = ({
     }
 
     useEffect(() => {
-        console.log(paginationData.limit)
         getAllPosts(paginationData);
     }, [post, commentId, paginationData.offset])
 
@@ -102,8 +101,8 @@ const AllPosts = ({
 
     return (
         <>
-            {allPosts && allPosts.length && allPosts.map(post => (
-                <div>
+            <div style={{ height: '550px', overflow: 'scroll', marginBottom: '20px', marginTop: '20px' }}>
+                {allPosts && allPosts.length && allPosts.map(post => (
                     <Card Card style={{ marginBottom: "20px" }} >
                         <Card.Body key={post.id}>
                             <Card.Title>
@@ -153,9 +152,9 @@ const AllPosts = ({
                             </Card.Text>
                         </Card.Body>
                     </Card >
-                </div>
-            ))
-            }
+                ))
+                }
+            </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit</Modal.Title>

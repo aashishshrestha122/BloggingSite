@@ -20,20 +20,21 @@ const Home = ({ user }) => {
     return (
         <Container>
             <Row style={{ marginTop: "20px" }}>
-                <Col>{user && user.username ? user.username : ''}</Col>
+                <Col></Col>
                 <Col xs={6}></Col>
                 <Col>
-                    <Button variant='primary' onClick={logout}>Logout</Button>
+                    <span>{user && user.username ? user.username : ''}</span>{''}
+                    <Button variant='danger' onClick={logout}>Logout</Button>
                 </Col>
             </Row>
             <Row style={{ marginTop: "20px" }}>
                 <Col></Col>
-                <Col xs={6}><Post /></Col>
+                <Col xs={5}><Post /></Col>
                 <Col></Col>
             </Row>
             <Row>
                 <Col></Col>
-                <Col xs={5}><Feed /></Col>
+                <Col xs={8}><Feed /></Col>
                 <Col></Col>
             </Row>
         </Container>
