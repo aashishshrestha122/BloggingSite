@@ -67,7 +67,7 @@ export const editPost = async (data) => {
 
 export const viewPosts = async () => {
 
-    const posts = `SELECT id, title, body FROM posts ORDER BY created_at DESC`;
+    const posts = `SELECT id, userid, title, body FROM posts ORDER BY created_at DESC`;
     const [postResults] = await pool.promise().query(posts);
     const postIds = postResults.map(result => result.id);
 

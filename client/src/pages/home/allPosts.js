@@ -83,22 +83,29 @@ const AllPosts = ({
     return (
         <>
             {allPosts && allPosts.length && allPosts.map(post => (
-                <Card style={{ marginBottom: "20px" }} >
+                <Card Card style={{ marginBottom: "20px" }} >
                     <Card.Body key={post.id}>
                         <Card.Title>
                             {post.title}
-                            <Button
-                                variant='secondary'
-                                onClick={() => handleShow(post.id, userId, post.title, post.body)}
-                            >
-                                Edit
-                            </Button>
-                            <Button
-                                variant='danger'
-                                onClick={() => handleDelete(post.id)}
-                            >
-                                Delete
-                            </Button>
+
+                            {
+                                post.userid === userId ?
+                                    <>
+                                        <Button
+                                            variant='secondary'
+                                            onClick={() => handleShow(post.id, userId, post.title, post.body)}
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            variant='danger'
+                                            onClick={() => handleDelete(post.id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </>
+                                    : ''
+                            }
                         </Card.Title>
 
                         <Card.Text>
@@ -124,7 +131,7 @@ const AllPosts = ({
                             </Form>
                         </Card.Text>
                     </Card.Body>
-                </Card>
+                </Card >
             ))
             }
             <Modal show={show} onHide={handleClose}>
