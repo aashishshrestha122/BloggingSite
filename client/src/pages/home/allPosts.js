@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HttpStatus from 'http-status-codes';
 
 import { Button, Card, Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
@@ -7,7 +8,17 @@ import { connect } from "react-redux";
 import { getAllPosts, editPost, deletePost } from '../../redux/actions/post';
 import { postComment } from '../../redux/actions/comment';
 
-const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, commentId, updatedPostLoading }) => {
+const AllPosts = ({
+    getAllPosts,
+    allPosts,
+    editPost,
+    post,
+    userId,
+    postComment,
+    commentId,
+    updatedPostLoading,
+    deletePost
+}) => {
 
     useEffect(() => {
         getAllPosts();
@@ -33,7 +44,6 @@ const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, 
         setShow(false)
     };
 
-
     const [postDetails, setPostDetailsData] = useState({
         postId: '',
         userId: '',
@@ -58,18 +68,23 @@ const AllPosts = ({ getAllPosts, allPosts, editPost, post, userId, postComment, 
         })
     }
     const handleEdit = async () => {
-        await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
+        // await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
+        const editRes = await editPost(postDetails.postId, postDetails.userId, postDetails.title, postDetails.body);
+        if (editRes.value.serverStatus === 2) {
+            getAllPosts();
+        }
     }
 
     const handleDelete = async (postId) => {
-        await deletePost(postId);
+        // await deletePost(postId);
+        const delRes = deletePost(postId);
     }
 
     return (
         <>
             {allPosts && allPosts.length && allPosts.map(post => (
                 <Card style={{ marginBottom: "20px" }} >
-                    <Card.Body>
+                    <Card.Body key={post.id}>
                         <Card.Title>
                             {post.title}
                             <Button
@@ -151,7 +166,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllPosts,
     postComment,
-    editPost
+    editPost,
+    deletePost
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllPosts);
