@@ -18,7 +18,7 @@ router.post('/edit-post', verifyToken, postController.editPost);
 /**
  * GET /posts/view-posts
  */
-router.get('/view-posts', verifyToken, postController.viewPosts);
+router.post('/view-posts', verifyToken, postController.viewPosts);
 
 /**
  * GET /posts/post

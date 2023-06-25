@@ -6,9 +6,9 @@ export const post = async (userid, title, body) => {
     return data;
 };
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (paginationData) => {
     try {
-        const { data } = await http.get("/posts/view-posts");
+        const { data } = await http.post("/posts/view-posts", { paginationData });
 
         return data;
     } catch (err) {

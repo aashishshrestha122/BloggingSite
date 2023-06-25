@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Form } from 'react-bootstrap';
+import { Button, Card, Form, Pagination } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 import { connect } from "react-redux";
@@ -19,9 +19,30 @@ const AllPosts = ({
     deletePost
 }) => {
 
+    const [paginationData, setPaginationData] = useState({
+        offset: 10,
+        limit: 10
+    })
+
+    const changePagination = (status) => {
+        console.log('pagination')
+        if (status === 'next') {
+            setPaginationData({
+                ...paginationData,
+                offset: parseInt(paginationData.offset) + 10
+            })
+        }else if(status === 'prev'){
+            setPaginationData({
+                ...paginationData,
+                offset: parseInt(paginationData.offset) - 10
+            })
+        }
+    }
+
     useEffect(() => {
-        getAllPosts();
-    }, [post, commentId])
+        console.log(paginationData.limit)
+        getAllPosts(paginationData);
+    }, [post, commentId, paginationData.offset])
 
     useEffect(() => {
         setShow(false);
@@ -82,55 +103,57 @@ const AllPosts = ({
     return (
         <>
             {allPosts && allPosts.length && allPosts.map(post => (
-                <Card Card style={{ marginBottom: "20px" }} >
-                    <Card.Body key={post.id}>
-                        <Card.Title>
-                            {post.title}
-                            {
-                                post.userid === userId ?
-                                    <>
-                                        <Button
-                                            variant='secondary'
-                                            onClick={() => handleShow(post.id, userId, post.title, post.body)}
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant='danger'
-                                            onClick={() => handleDelete(post.id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </>
-                                    : ''
-                            }
-                        </Card.Title>
+                <div>
+                    <Card Card style={{ marginBottom: "20px" }} >
+                        <Card.Body key={post.id}>
+                            <Card.Title>
+                                {post.title}
+                                {
+                                    post.userid === userId ?
+                                        <>
+                                            <Button
+                                                variant='secondary'
+                                                onClick={() => handleShow(post.id, userId, post.title, post.body)}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                variant='danger'
+                                                onClick={() => handleDelete(post.id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </>
+                                        : ''
+                                }
+                            </Card.Title>
 
-                        <Card.Text>
-                            {post.body}
-                            <br /><br /><b><i>~by {post.username}</i></b>
-                        </Card.Text>
-                        {
-                            post.comments && post.comments.length ? post.comments.map(comment => (
-                                <Card.Text><b>{comment.username}</b> : {comment.body}</Card.Text>
-                            )) : ''
-                        }
-                        <Card.Text>
-                            <Form>
-                                <Form.Group className="mb-3 " controlId="formComment">
-                                    <Form.Control type="text" placeholder="Enter Comment" name="comment" onBlur={handleChange} />
-                                </Form.Group>
-                                <Button
-                                    variant='primary'
-                                    style={{ padding: "6px" }}
-                                    onClick={() => handleSubmit(post.id)}
-                                >
-                                    Comment
-                                </Button>
-                            </Form>
-                        </Card.Text>
-                    </Card.Body>
-                </Card >
+                            <Card.Text>
+                                {post.body}
+                                <br /><br /><b><i>~by {post.username}</i></b>
+                            </Card.Text>
+                            {
+                                post.comments && post.comments.length ? post.comments.map(comment => (
+                                    <Card.Text><b>{comment.username}</b> : {comment.body}</Card.Text>
+                                )) : ''
+                            }
+                            <Card.Text>
+                                <Form>
+                                    <Form.Group className="mb-3 " controlId="formComment">
+                                        <Form.Control type="text" placeholder="Enter Comment" name="comment" onBlur={handleChange} />
+                                    </Form.Group>
+                                    <Button
+                                        variant='primary'
+                                        style={{ padding: "6px" }}
+                                        onClick={() => handleSubmit(post.id)}
+                                    >
+                                        Comment
+                                    </Button>
+                                </Form>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card >
+                </div>
             ))
             }
             <Modal show={show} onHide={handleClose}>
@@ -156,6 +179,16 @@ const AllPosts = ({
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <Pagination>
+                {
+                    paginationData.offset > 10 ?
+                        <Pagination.Prev onClick={() => changePagination('prev')} >Prev</Pagination.Prev>
+                        :
+                        ''
+                }
+                <Pagination.Next onClick={() => changePagination('next')}>Next</Pagination.Next>
+            </Pagination>
         </>
     )
 }

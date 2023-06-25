@@ -65,13 +65,13 @@ export const editPost = async (data) => {
     }
 }
 
-export const viewPosts = async () => {
+export const viewPosts = async (data) => {
 
-    const posts = `SELECT p.id, p.userid, u.username, p.title, p.body FROM posts p LEFT JOIN users u on u.id = p.userid ORDER BY p.created_at DESC`;
+    const posts = `SELECT p.id, p.userid, u.username, p.title, p.body FROM posts p LEFT JOIN users u on u.id = p.userid ORDER BY p.created_at DESC LIMIT ${mysql.escape(data.paginationData.limit)} OFFSET ${mysql.escape(data.paginationData.offset)}; `;
     const [postResults] = await pool.promise().query(posts);
     const postIds = postResults.map(result => result.id);
 
-    const comment = `SELECT c.id, c.post_id, u.username, c.user_name, c.body FROM comments c LEFT JOIN users u on u.id = c.user_name WHERE c.post_id IN (${postIds.join(',')})`;
+    const comment = `SELECT c.id, c.post_id, u.username, c.user_name, c.body FROM comments c LEFT JOIN users u on u.id = c.user_name WHERE c.post_id IN(${postIds.join(',')})`;
     const [commentResults] = await pool.promise().query(comment);
 
     const result = postResults.map(post => {
@@ -87,7 +87,7 @@ export const viewPosts = async () => {
 
 export const post = async (data) => {
 
-    const query = `SELECT id, title, body FROM posts WHERE id = ${mysql.escape(data.id)}`;
+    const query = `SELECT id, title, body FROM posts WHERE id = ${mysql.escape(data.id)} `;
 
     const [rows] = await pool.promise().query(query);
     return [rows];
@@ -95,7 +95,7 @@ export const post = async (data) => {
 
 export const deletePost = async (data) => {
 
-    const query = `DELETE FROM posts WHERE id = ${mysql.escape(data.postId)}`;
+    const query = `DELETE FROM posts WHERE id = ${mysql.escape(data.postId)} `;
 
     const [rows] = await pool.promise().query(query);
     return rows;
