@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import HttpStatus from 'http-status-codes';
 
 import { Button, Card, Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
@@ -87,7 +86,6 @@ const AllPosts = ({
                     <Card.Body key={post.id}>
                         <Card.Title>
                             {post.title}
-                            {console.log(post)}
                             {
                                 post.userid === userId ?
                                     <>

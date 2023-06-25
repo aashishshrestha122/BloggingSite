@@ -1,15 +1,32 @@
 import React from 'react';
 import Post from './post';
 import Feed from './feed';
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Button } from 'react-bootstrap';
 
-const Home = () => {
+const Home = ({ user }) => {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        navigate('/login');
+    }
     return (
         <Container>
-            <Row style={{marginTop : "20px"}}>
+            <Row style={{ marginTop: "20px" }}>
+                <Col>{user && user.username ? user.username : ''}</Col>
+                <Col xs={6}></Col>
+                <Col>
+                    <Button variant='primary' onClick={logout}>Logout</Button>
+                </Col>
+            </Row>
+            <Row style={{ marginTop: "20px" }}>
                 <Col></Col>
                 <Col xs={6}><Post /></Col>
                 <Col></Col>
@@ -22,4 +39,9 @@ const Home = () => {
         </Container>
     )
 }
-export default Home;
+
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+});
+
+export default connect(mapStateToProps)(Home);
