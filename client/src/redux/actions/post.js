@@ -22,6 +22,11 @@ export const DELETE_POST_PENDING = 'DELETE_POST_PENDING';
 export const DELETE_POST_REJECTED = 'DELETE_POST_REJECTED';
 export const DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
 
+export const SEARCH_POST = 'SEARCH_POST';
+export const SEARCH_POST_PENDING = 'SEARCH_POST_PENDING';
+export const SEARCH_POST_REJECTED = 'SEARCH_POST_REJECTED';
+export const SEARCH_POST_FULFILLED = 'SEARCH_POST_FULFILLED';
+
 export const post = createAction(
     CREATE_POST,
     postService.post
@@ -40,4 +45,9 @@ export const editPost = createAction(
 export const deletePost = createAction(
     DELETE_POST,
     postService.deletePost
+);
+
+export const searchPost = createAction(
+    SEARCH_POST,
+    postService.searchPost
 );

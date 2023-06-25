@@ -64,3 +64,13 @@ export async function deletePost(req, res, next) {
         next(err);
     }
 }
+
+export async function searchPost(req, res, next) {
+    try {
+        const data = await postService.searchPost(req.body);
+
+        return res.status(HttpStatus.OK).json(data);
+    } catch (err) {
+        next(err);
+    }
+}

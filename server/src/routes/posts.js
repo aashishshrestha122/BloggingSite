@@ -30,4 +30,6 @@ router.get('/post', verifyToken, postController.post);
  */
 router.put('/delete-post', verifyToken, postController.deletePost)
 
+router.post('/search-post', verifyToken, postController.searchPost)
+
 export default router;

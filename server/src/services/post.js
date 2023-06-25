@@ -100,3 +100,31 @@ export const deletePost = async (data) => {
     const [rows] = await pool.promise().query(query);
     return rows;
 }
+
+export const searchPost = async (data) => {
+
+    const query = `SELECT 
+                        p.id,
+                        p.userid,
+                        p.title,
+                        p.body as post,
+                        c.body AS comment,
+                        u.username as postedBy,
+                        us.username as commentedBy
+                    FROM
+                        posts p
+                            LEFT JOIN
+                        comments c ON c.post_id = p.id
+                            LEFT JOIN
+                        users u ON u.id = p.userid
+                            LEFT JOIN
+                        users us ON us.id = c.user_name
+                        WHERE
+                        p.title LIKE ${mysql.escape('%' + data.searchData + '%')}
+                        OR p.body LIKE ${mysql.escape('%' + data.searchData + '%')}
+                        OR c.body LIKE ${mysql.escape('%' + data.searchData + '%')}
+                    ORDER BY p.created_at DESC;`;
+
+    const [rows] = await pool.promise().query(query);
+    return rows;
+}

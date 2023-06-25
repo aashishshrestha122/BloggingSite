@@ -10,7 +10,10 @@ import {
     EDIT_POST_REJECTED,
     DELETE_POST_FULFILLED,
     DELETE_POST_REJECTED,
-    DELETE_POST_PENDING
+    DELETE_POST_PENDING,
+    SEARCH_POST_FULFILLED,
+    SEARCH_POST_REJECTED,
+    SEARCH_POST_PENDING
 } from "../actions/post";
 // import * as tokenUtil from "../../utils/token";
 
@@ -18,6 +21,7 @@ const initialState = {
     allPosts: {},
     posts: {},
     loading: false,
+    searchedPost: {}
 };
 
 // eslint-disable-next-line
@@ -37,10 +41,17 @@ export default function (state = initialState, action) {
                 allPosts: action.payload,
                 loading: false
             };
+        case SEARCH_POST_FULFILLED:
+            return {
+                ...state,
+                searchedPost: action.payload,
+                loading: false
+            }
         case CREATE_POST_PENDING:
         case GET_ALL_POSTS_PENDING:
         case EDIT_POST_PENDING:
         case DELETE_POST_PENDING:
+        case SEARCH_POST_PENDING:
             return {
                 ...state,
                 loading: true
@@ -49,6 +60,7 @@ export default function (state = initialState, action) {
         case GET_ALL_POSTS_REJECTED:
         case EDIT_POST_REJECTED:
         case DELETE_POST_REJECTED:
+        case SEARCH_POST_REJECTED:
             return {
                 ...state,
                 loading: false

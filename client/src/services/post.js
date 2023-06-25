@@ -27,3 +27,9 @@ export const deletePost = async (postId) => {
 
     return data;
 };
+
+export const searchPost = async (searchData) => {
+    const { data } = await http.post('/posts/search-post', { searchData });
+
+    return data;
+};
